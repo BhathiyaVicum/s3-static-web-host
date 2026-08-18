@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lumina · Design Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0F172A;
+            --secondary: #1E293B;
+            --accent: #8B5CF6;
+            --accent-light: #A78BFA;
+            --accent-dark: #7C3AED;
+            --gradient: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-400: #94A3B8;
+            --gray-500: #64748B;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+            --gray-900: #0F172A;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            --radius: 16px;
+            --radius-full: 9999px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ─── Utilities ─── */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .text-center { text-align: center; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+        .gap-12 { gap: 3rem; }
+
+        .text-gradient {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-gradient {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);
+        }
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--gray-700);
+            border: 2px solid var(--gray-300);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent);
+            padding: 0.3rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            border: 1px solid rgba(139, 92, 246, 0.15);
+        }
+
+        /* ─── Navbar ─── */
+        .navbar {
+            padding: 1.25rem 0;
+            border-bottom: 1px solid var(--gray-200);
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .logo i {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+        }
+        .logo span {
+            font-weight: 300;
+            color: var(--gray-400);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+        .nav-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            font-size: 0.95rem;
+        }
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* ─── Hero ─── */
+        .hero {
+            padding: 6rem 0 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(236,72,153,0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin: 1.5rem 0 1.2rem;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--gray-500);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* ─── Features ─── */
+        .features-section {
+            padding: 5rem 0;
+        }
+        .section-header {
+            margin-bottom: 3.5rem;
+        }
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        .section-header p {
+            color: var(--gray-500);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem 1.75rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent-light);
+        }
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            background: rgba(139, 92, 246, 0.08);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--accent);
+            margin-bottom: 1.25rem;
+        }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .feature-card p {
+            color: var(--gray-500);
+            font-size: 0.95rem;
+        }
+
+        /* ─── Testimonials ─── */
+        .testimonials-section {
+            padding: 5rem 0;
+            background: white;
+            border-radius: var(--radius);
+            margin: 2rem 0 4rem;
+            border: 1px solid var(--gray-200);
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+        .testimonial-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .testimonial-card .avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--gradient);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            font-weight: 700;
+        }
+        .testimonial-card blockquote {
+            font-style: italic;
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .testimonial-card .name {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        .testimonial-card .role {
+            font-size: 0.85rem;
+            color: var(--gray-400);
+        }
+        .stars {
+            color: #F59E0B;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        /* ─── CTA ─── */
+        .cta-section {
+            padding: 4rem 2rem;
+            background: var(--primary);
+            border-radius: var(--radius);
+            margin: 2rem 0 4rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        .cta-section p {
+            color: var(--gray-300);
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        .cta-section .btn {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ─── Footer ─── */
+        .footer {
+            border-top: 1px solid var(--gray-200);
+            padding: 2.5rem 0;
+            margin-top: 2rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+        .footer-brand p {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            max-width: 280px;
+            margin-top: 0.5rem;
+        }
+        .footer-col h5 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .footer-col a {
+            display: block;
+            color: var(--gray-500);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.25rem 0;
+            transition: color 0.2s;
+        }
+        .footer-col a:hover {
+            color: var(--accent);
+        }
+        .footer-bottom {
+            border-top: 1px solid var(--gray-200);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .social-links a {
+            color: var(--gray-400);
+            transition: color 0.2s;
+            font-size: 1.2rem;
+        }
+        .social-links a:hover {
+            color: var(--accent);
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.25rem;
+            }
+            .navbar .flex {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1.25rem;
+            }
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ─── Animations ─── */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .opacity-0 { opacity: 0; }
+    </style>
+</head>
+<body>
+
+    <!-- ─── Navbar ─── -->
+    <nav class="navbar">
+        <div class="container flex items-center justify-between">
+            <div class="logo">
+                <i class="fas fa-sparkles"></i>
+                Lumina<span>.studio</span>
+            </div>
+            <div class="nav-links">
+                <a href="#">Work</a>
+                <a href="#">Services</a>
+                <a href="#">About</a>
+                <a href="#" class="btn btn-outline" style="padding:0.5rem 1.25rem; font-size:0.9rem;">
+                    <i class="fas fa-paper-plane"></i> Contact
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ─── Hero ─── -->
+    <section class="hero">
+        <div class="container hero-content text-center">
+            <div class="badge" style="margin:0 auto;">
+                <i class="fas fa-star"></i> Design excellence since 2024
+            </div>
+            <h1>
+                Where ideas<br />
+                <span class="text-gradient">come to life</span>
+            </h1>
+            <p>
+                We craft digital experiences that are beautiful, functional,
+                and unforgettable. Let's build something extraordinary together.
+            </p>
+            <div class="flex items-center justify-center gap-4" style="flex-wrap:wrap;">
+                <a href="#" class="btn btn-gradient">
+                    <i class="fas fa-rocket"></i> Start a project
+                </a>
+                <a href="#" class="btn btn-outline">
+                    <i class="fas fa-play-circle"></i> See our work
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── Features ─── -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>What we <span class="text-gradient">do best</span></h2>
+                <p>End-to-end design solutions for brands that want to stand out.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card animate-in delay-1 opacity-0">
+                    <div class="feature-icon"><i class="fas fa-pen-fancy"></i></div>
+                    <h3>UI/UX Design</h3>
+                    <p>Human-centered interfaces that users love. From wireframes to pixel-perfect prototypes.</p>
+                </div>
+                <div class="feature-card animate-in delay-2 opacity-0">
+                    <div class="feature-icon"><i class="fas fa-code"></i></div>
+                    <h3>Web Development</h3>
+                    <p>Responsive, performant websites built with modern frameworks and best practices.</p>
+                </div>
+                <div class="feature-card animate-in delay-3 opacity-0">
+                    <div class="feature-icon"><i class="fas fa-bullhorn"></i></div>
+                    <h3>Brand Strategy</h3>
+                    <p>Identity, positioning, and storytelling that connects with your audience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── Testimonials ─── -->
+    <div class="container">
+        <div class="testimonials-section">
+            <div class="text-center" style="margin-bottom:2.5rem;">
+                <h2 style="font-size:2rem; font-weight:700;">What clients <span class="text-gradient">say</span></h2>
+                <p style="color:var(--gray-500);">Real feedback from real partnerships.</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="avatar">JD</div>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <blockquote>"Incredible attention to detail. They transformed our product into something truly special."</blockquote>
+                    <div class="name">Jane Doe</div>
+                    <div class="role">CEO, TechFlow</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="avatar">MR</div>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <blockquote>"They don't just design websites—they design experiences. Our conversion rate doubled."</blockquote>
+                    <div class="name">Mike Rodriguez</div>
+                    <div class="role">Founder, Bloom Co.</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="avatar">SW</div>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <blockquote>"Professional, creative, and always on time. The best design partner we've ever had."</blockquote>
+                    <div class="name">Sarah Wilson</div>
+                    <div class="role">Marketing Director, Vibe</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── CTA ─── -->
+    <div class="container">
+        <div class="cta-section">
+            <h2>Ready to create <span style="color:var(--accent-light);">something amazing</span>?</h2>
+            <p>Let's turn your vision into reality. Book a free consultation today.</p>
+            <a href="#" class="btn btn-gradient" style="background:white; color:var(--primary); box-shadow:0 4px 14px rgba(0,0,0,0.1);">
+                <i class="fas fa-calendar-check"></i> Book a call
+            </a>
+        </div>
+    </div>
+
+    <!-- ─── Footer ─── -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo" style="font-size:1.4rem;">
+                        <i class="fas fa-sparkles"></i>
+                        Lumina<span>.studio</span>
+                    </div>
+                    <p>Design studio crafting beautiful digital experiences for brands that matter.</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Services</h5>
+                    <a href="#">UI/UX Design</a>
+                    <a href="#">Web Development</a>
+                    <a href="#">Brand Strategy</a>
+                    <a href="#">Design Systems</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <a href="#">About</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Connect</h5>
+                    <a href="#">hello@lumina.studio</a>
+                    <a href="#">+1 (555) 123-4567</a>
+                    <a href="#">San Francisco, CA</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Lumina Studio. All rights reserved.</span>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-dribbble"></i></a>
+                    <a href="#"><i class="fab fa-behance"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ─── Animation Observer ─── -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.feature-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            cards.forEach(card => observer.observe(card));
+        });
+    </script>
+</body>
+</html>

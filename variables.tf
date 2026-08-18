@@ -1,4 +1,3 @@
 variable "bucket_name" {
-  default = "s3bucketwebhosttest"
+  default = "s3bucketwebhost-test2026"
 }
-
