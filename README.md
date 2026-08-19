@@ -8,6 +8,10 @@
 
 This project demonstrates **secure static website hosting** on AWS using S3 and CloudFront. The entire infrastructure is provisioned using **Infrastructure as Code (IaC)** with Terraform. The S3 bucket is completely private and only accessible through CloudFront, providing optimal security and performance.
 
+<p align="center">
+  <img width="731" height="301" alt="Untitled Diagram drawio (1)" src="https://github.com/user-attachments/assets/8dac3099-28d1-4cca-95ca-6e7b4c68afc6" />
+</p>
+
 ### 🎯 Key Features
 
 - ✅ **Secure Architecture** – S3 bucket is private, accessible only via CloudFront
